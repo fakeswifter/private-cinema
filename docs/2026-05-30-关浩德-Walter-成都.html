@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关浩德 Walter — 巡演成都站 · Private Cinema</title>
+  <style>    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --text: #d4d4d4;
+      --text-dim: #888888;
+      --text-bright: #f0f0f0;
+      --accent: #e8a838;
+      --accent-film: #d4756b;
+      --accent-live: #6bb5d4;
+      --border: #2a2a2a;
+      --border-light: #1f1f1f;
+      --score-bg: #1a1a1a;
+      --hero-bg: #151515;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                   "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Masthead ─────────────────────────────── */
+    .masthead {
+      border-bottom: 1px solid var(--border);
+      padding: 40px 0 18px;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .masthead .logo {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", "SimSun", serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text-bright);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .masthead .logo:hover { color: var(--accent); }
+    .masthead .tagline {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    /* ── Nav ──────────────────────────────────── */
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 2px;
+    }
+    .nav a {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-weight: 500;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text-bright);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ── Layout ───────────────────────────────── */
+    .container { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+    .content { padding: 32px 0 60px; }
+
+    /* ── Hero (featured) ──────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 40px;
+      align-items: start;
+      padding: 40px 0 36px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .hero .hero-tag {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .hero .hero-title {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text-bright);
+      margin-bottom: 14px;
+    }
+    .hero .hero-title a {
+      color: var(--text-bright);
+      text-decoration: none;
+    }
+    .hero .hero-title a:hover { color: var(--accent); }
+    .hero .hero-meta {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .hero .hero-meta .sep { color: #444; }
+    .hero .hero-summary {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #aaa;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    .hero .hero-link {
+      display: inline-block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
+      transition: opacity 0.15s;
+    }
+    .hero .hero-link:hover { opacity: 0.7; }
+
+    /* ── Score badge ──────────────────────────── */
+    .score-badge {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--score-bg);
+      border: 3px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0px;
+      flex-shrink: 0;
+    }
+    .score-badge .score-num {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1;
+    }
+    .score-badge .score-label {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+    .score-badge.film { border-color: var(--accent-film); }
+    .score-badge.film .score-num { color: var(--accent-film); }
+    .score-badge.live { border-color: var(--accent-live); }
+    .score-badge.live .score-num { color: var(--accent-live); }
+
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero .score-wrap { order: -1; }
+      .hero .hero-title { font-size: 1.6rem; }
+      .score-badge { width: 64px; height: 64px; }
+      .score-badge .score-num { font-size: 1.5rem; }
+    }
+
+    /* ── Section headers ──────────────────────── */
+    .section-head {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin: 44px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-head .count {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: 400;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin-left: 12px;
+    }
+
+    /* ── Review grid ──────────────────────────── */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .review-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s;
+    }
+    .review-card:hover { border-color: #404040; }
+    .review-card .card-tag {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .card-tag.film { color: var(--accent-film); }
+    .card-tag.live { color: var(--accent-live); }
+    .review-card .card-title {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text-bright);
+      margin-bottom: 8px;
+    }
+    .review-card .card-title a {
+      color: var(--text-bright);
+      text-decoration: none;
+    }
+    .review-card .card-title a:hover { color: var(--accent); }
+    .review-card .card-meta {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .review-card .card-summary {
+      font-size: 0.85rem;
+      color: #999;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .review-card .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 16px;
+      gap: 12px;
+    }
+    .review-card .card-score {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .card-score.film { color: var(--accent-film); }
+    .card-score.live { color: var(--accent-live); }
+    .review-card .card-read {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .review-card .card-read:hover { color: var(--accent); }
+
+    /* ── Empty state ──────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 0;
+      color: var(--text-dim);
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+    /* ── Detail page ──────────────────────────── */
+    .back-link {
+      display: inline-block;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 28px;
+    }
+    .back-link:hover { color: var(--text-bright); }
+    .detail-header {
+      margin-bottom: 36px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: start;
+    }
+    .detail-header h1 {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+    .detail-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px 20px;
+    }
+    .detail-meta-item {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+    .detail-meta-item strong { color: #999; font-weight: 400; display: block; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
+    .detail-body {
+      color: #bbb;
+      font-size: 0.95rem;
+    }
+    .detail-body h2 {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ddd;
+      margin: 32px 0 12px;
+    }
+    .detail-body h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #ccc;
+      margin: 22px 0 8px;
+    }
+    .detail-body p { margin-bottom: 14px; }
+    .detail-body ul { margin: 8px 0 16px 22px; }
+    .detail-body li { margin-bottom: 5px; }
+    .detail-body strong { color: #ddd; font-weight: 500; }
+
+    @media (max-width: 600px) {
+      .detail-header { grid-template-columns: 1fr; }
+      .detail-header h1 { font-size: 1.5rem; }
+    }
+
+    /* ── Footer ───────────────────────────────── */
+    footer {
+      text-align: center;
+      color: #3a3a3a;
+      font-size: 0.72rem;
+      margin-top: 60px;
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+    }
+    footer span { margin: 0 20px; }
+
+    /* ── AI Comment Section ───────────────────── */
+    .comment-section {
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 2px solid var(--border);
+    }
+    .comment-section-title {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      margin-bottom: 24px;
+      letter-spacing: 0.02em;
+    }
+    .comment-section-title .subtitle {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-dim);
+      font-weight: 400;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin-left: 12px;
+    }
+    .comment-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 26px;
+      margin-bottom: 16px;
+    }
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .comment-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--score-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .comment-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ddd;
+    }
+    .comment-role {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+    .comment-body {
+      font-size: 0.88rem;
+      color: #aaa;
+      line-height: 1.75;
+    }
+</style>
+</head>
+<body>
+  <header class="masthead">
+    <a href="index.html" class="logo">PRIVATE CINEMA</a>
+    <div class="tagline">Movies & Live · A Personal Journal</div>
+  </header>
+  <nav class="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="index.html#film">Film</a>
+    <a href="index.html#live">Live</a>
+  </nav>
+  <div class="container">
+    <div class="content">            <a href="index.html" class="back-link">← Home</a>
+            <div class="detail-header">
+              <div>
+                <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.3em;color:var(--accent);margin-bottom:8px;">Live</div>
+                <h1>关浩德 Walter — 巡演成都站</h1>
+                <div class="detail-meta-grid">
+                  <div class="detail-meta-item"><strong>DATE</strong> 2026-05-30</div>
+<div class="detail-meta-item"><strong>ARTIST</strong> 关浩德 (Walter Kwan)</div>
+<div class="detail-meta-item"><strong>VENUE</strong> 正火 6 号馆，成都</div>
+<div class="detail-meta-item"><strong>STYLE</strong> 流行爵士 / 律动</div>
+<div class="detail-meta-item"><strong>RATING</strong> 7.5 / 10</div>
+                </div>
+              </div>
+                              <div class="score-badge live">
+                  <div class="score-num">7.5</div>
+                  <div class="score-label">SCORE</div>
+                </div>
+            </div>
+            <div class="detail-body">
+              <ul>
+<li><strong>演出日期</strong>：2026-05-30</li>
+<li><strong>艺人</strong>：关浩德 (Walter Kwan)</li>
+<li><strong>场地</strong>：正火 6 号馆，成都</li>
+<li><strong>风格</strong>：流行爵士 / 律动</li>
+<li><strong>我的评分</strong>：7.5 / 10</li>
+<h2>演出概况</h2>
+<p>完整观看。场地为正火 6 号馆，到场人数不少，大部分是新粉丝或通过社交媒体视频被吸引来的观众。</p>
+<h2>我的评价</h2>
+<p><strong>好的方面</strong>：
+<li>对个人专辑作品的改编版本很有律动感，呈现了风格不一的编曲处理</li>
+<li>与观众互动自然，带观众一起唱几个音的环节让人印象深刻</li>
+<li>现场氛围轻松愉快</li></p>
+<p><strong>问题和不足</strong>：
+<li>整体曲风集中在流行爵士，略显乏味，缺少风格上的突破</li>
+<li>观众中真正懂律动、喜欢爵士音乐的人并不多，受众基础仍需培养</li>
+<li>从关浩德的表达来看他似乎倾向于今后做「观众更容易接受」的音乐，个人认为他应该保持并扩充音乐风格</li>
+<li>个人风格辨识度一般，不够独立立体 —— 对比同行：裘德在 fusion jazz 上有明确的个人风格，雷擎的律动音乐整体性更强、内容性更足、作品艺术感更突出</li>
+</ul></p>
+<p><strong>一句话总结</strong>：一场轻松愉快的演出，律动改编是亮点，但关浩德在个人风格塑造和音乐深度的追求上还有很长的路要走。</p>
+            </div>
+                        <div class="comment-section">
+              <div class="comment-section-title">
+                AI 评论团<span class="subtitle">· DEEPSEEK</span>
+              </div>
+                          <div class="comment-card">
+              <div class="comment-header">
+                <div class="comment-avatar">🎹</div>
+                <div>
+                  <div class="comment-name">赵修远</div>
+                  <div class="comment-role">音乐制作人 / 演出评论人</div>
+                </div>
+              </div>
+              <div class="comment-body">这场演出的编曲层面确实下了功夫，专辑曲目的律动化改编让整体听感维持在了一个舒服的节奏流动中，Bassline和键盘的和声填充也看得出Walter的功底。但问题在于，这种“舒服”几乎贯穿全场——缺乏动态起伏和风格切换的桥段设计，导致听觉疲劳在第三段开始显现。现场混音上，人声偏干，压缩稍大，在需要爆发力的段落里有点撑不住。乐队的配合默契度不错，但鼓手的律动触感偏保守，尤其是在需要放开的shuffle段落里显得犹豫。Walter的演唱控制力在线，但音色辨识度确实还不够“挂得住”。他如果真想扩大受众，不妨考虑在编曲里加入更明确的hook设计，而不是一味追求“顺耳”——顺耳在Live里往往意味着平淡。</div>
+            </div>            <div class="comment-card">
+              <div class="comment-header">
+                <div class="comment-avatar">🌊</div>
+                <div>
+                  <div class="comment-name">苏晚晴</div>
+                  <div class="comment-role">音乐场景观察者 / 文化评论人</div>
+                </div>
+              </div>
+              <div class="comment-body">昨晚在正火6号馆看了关浩德，现场氛围轻松得像夏夜晚风，他带观众哼唱那几个音的互动，确实让人心头一软。但散场后，我一直在想一个问题：他到底想成为谁？
+
+律动改编是今晚的亮色，说明他有能力把作品玩出花样。可是当整晚都泡在同一种流行爵士的温吞感里，我开始怀念那种“破格”的冲动——就像裘德在fusion jazz里长出的锋利棱角，或者雷擎在律动中埋下的叙事野心。关浩德似乎更倾向于做“安全”的音乐，迎合那些通过短视频找来的新观众。
+
+但问题是，爵士乐的灵魂从来不是讨好，是冒险。他站在一个有趣的分岔口：一边是更容易被消费的轻松旋律，一边是真正能定义自我的音乐深度。希望他不要急着做选择题，因为真正的辨识度，往往来自那些看似“危险”的坚持。</div>
+            </div>            <div class="comment-card">
+              <div class="comment-header">
+                <div class="comment-avatar">🥁</div>
+                <div>
+                  <div class="comment-name">莫凡</div>
+                  <div class="comment-role">律动 / 能量评论人</div>
+                </div>
+              </div>
+              <div class="comment-body">这场演出的律动改编确实抓人，像一块上好的海绵，吸满了轻快与松弛——但整晚听下来，这层海绵始终没拧出过一滴血。关浩德和乐队在经典爵士律动里游走得足够舒适，互动里带观众跟唱那几个音也成了全场的能量峰值，可这种舒适很快变成了一成不变的“呼吸节奏”：每一个乐句的起落都太有礼貌了，缺少即兴拉扯时那种让人突然屏住呼吸的张力。
+
+对比雷擎或裘德，关浩德缺的不是技术，而是一个能把groove从“好听”推向“必须动起来”的临界点。观众席里懂律动的人不多，但更遗憾的是，台上的音乐似乎也在有意迎合这种“不懂”——保持轻松，却放弃了更深层的身体冲击力。他需要让节奏学会咬人。</div>
+            </div>
+            </div></div>
+    <footer>
+      <span>A personal archive of film and live music experiences.</span>
+    </footer>
+  </div>
+</body>
+</html>
