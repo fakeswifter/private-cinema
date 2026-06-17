@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRIVATE CINEMA · 私人影院</title>
+  <style>    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --text: #d4d4d4;
+      --text-dim: #888888;
+      --text-bright: #f0f0f0;
+      --accent: #e8a838;
+      --accent-film: #d4756b;
+      --accent-live: #6bb5d4;
+      --border: #2a2a2a;
+      --border-light: #1f1f1f;
+      --score-bg: #1a1a1a;
+      --hero-bg: #151515;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                   "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Masthead ─────────────────────────────── */
+    .masthead {
+      border-bottom: 1px solid var(--border);
+      padding: 40px 0 18px;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .masthead .logo {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", "SimSun", serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text-bright);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .masthead .logo:hover { color: var(--accent); }
+    .masthead .tagline {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    /* ── Nav ──────────────────────────────────── */
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 2px;
+    }
+    .nav a {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-weight: 500;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text-bright);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ── Layout ───────────────────────────────── */
+    .container { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
+    .content { padding: 32px 0 60px; }
+
+    /* ── Hero (featured) ──────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 40px;
+      align-items: start;
+      padding: 40px 0 36px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .hero .hero-tag {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .hero .hero-title {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text-bright);
+      margin-bottom: 14px;
+    }
+    .hero .hero-title a {
+      color: var(--text-bright);
+      text-decoration: none;
+    }
+    .hero .hero-title a:hover { color: var(--accent); }
+    .hero .hero-meta {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .hero .hero-meta .sep { color: #444; }
+    .hero .hero-summary {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #aaa;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    .hero .hero-link {
+      display: inline-block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
+      transition: opacity 0.15s;
+    }
+    .hero .hero-link:hover { opacity: 0.7; }
+
+    /* ── Score badge ──────────────────────────── */
+    .score-badge {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--score-bg);
+      border: 3px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0px;
+      flex-shrink: 0;
+    }
+    .score-badge .score-num {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1;
+    }
+    .score-badge .score-label {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+    .score-badge.film { border-color: var(--accent-film); }
+    .score-badge.film .score-num { color: var(--accent-film); }
+    .score-badge.live { border-color: var(--accent-live); }
+    .score-badge.live .score-num { color: var(--accent-live); }
+
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero .score-wrap { order: -1; }
+      .hero .hero-title { font-size: 1.6rem; }
+      .score-badge { width: 64px; height: 64px; }
+      .score-badge .score-num { font-size: 1.5rem; }
+    }
+
+    /* ── Section headers ──────────────────────── */
+    .section-head {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin: 44px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-head .count {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: 400;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin-left: 12px;
+    }
+
+    /* ── Review grid ──────────────────────────── */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .review-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s;
+    }
+    .review-card:hover { border-color: #404040; }
+    .review-card .card-tag {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .card-tag.film { color: var(--accent-film); }
+    .card-tag.live { color: var(--accent-live); }
+    .review-card .card-title {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text-bright);
+      margin-bottom: 8px;
+    }
+    .review-card .card-title a {
+      color: var(--text-bright);
+      text-decoration: none;
+    }
+    .review-card .card-title a:hover { color: var(--accent); }
+    .review-card .card-meta {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .review-card .card-summary {
+      font-size: 0.85rem;
+      color: #999;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .review-card .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 16px;
+      gap: 12px;
+    }
+    .review-card .card-score {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .card-score.film { color: var(--accent-film); }
+    .card-score.live { color: var(--accent-live); }
+    .review-card .card-read {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .review-card .card-read:hover { color: var(--accent); }
+
+    /* ── Empty state ──────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 0;
+      color: var(--text-dim);
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+    /* ── Detail page ──────────────────────────── */
+    .back-link {
+      display: inline-block;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 28px;
+    }
+    .back-link:hover { color: var(--text-bright); }
+    .detail-header {
+      margin-bottom: 36px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: start;
+    }
+    .detail-header h1 {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+    .detail-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px 20px;
+    }
+    .detail-meta-item {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+    .detail-meta-item strong { color: #999; font-weight: 400; display: block; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
+    .detail-body {
+      color: #bbb;
+      font-size: 0.95rem;
+    }
+    .detail-body h2 {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ddd;
+      margin: 32px 0 12px;
+    }
+    .detail-body h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #ccc;
+      margin: 22px 0 8px;
+    }
+    .detail-body p { margin-bottom: 14px; }
+    .detail-body ul { margin: 8px 0 16px 22px; }
+    .detail-body li { margin-bottom: 5px; }
+    .detail-body strong { color: #ddd; font-weight: 500; }
+
+    @media (max-width: 600px) {
+      .detail-header { grid-template-columns: 1fr; }
+      .detail-header h1 { font-size: 1.5rem; }
+    }
+
+    /* ── Footer ───────────────────────────────── */
+    footer {
+      text-align: center;
+      color: #3a3a3a;
+      font-size: 0.72rem;
+      margin-top: 60px;
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+    }
+    footer span { margin: 0 20px; }
+
+    /* ── AI Comment Section ───────────────────── */
+    .comment-section {
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 2px solid var(--border);
+    }
+    .comment-section-title {
+      font-family: "Georgia", "Times New Roman", "Noto Serif SC", serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      margin-bottom: 24px;
+      letter-spacing: 0.02em;
+    }
+    .comment-section-title .subtitle {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-dim);
+      font-weight: 400;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin-left: 12px;
+    }
+    .comment-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 26px;
+      margin-bottom: 16px;
+    }
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .comment-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--score-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .comment-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ddd;
+    }
+    .comment-role {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+    .comment-body {
+      font-size: 0.88rem;
+      color: #aaa;
+      line-height: 1.75;
+    }
+</style>
+</head>
+<body>
+  <header class="masthead">
+    <a href="index.html" class="logo">PRIVATE CINEMA</a>
+    <div class="tagline">Movies & Live · A Personal Journal</div>
+  </header>
+  <nav class="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="index.html#film">Film</a>
+    <a href="index.html#live">Live</a>
+  </nav>
+  <div class="container">
+    <div class="content">            <div class="hero">
+              <div>
+                <div class="hero-tag">Live / LATEST</div>
+                <div class="hero-title"><a href="2026-05-30-关浩德-Walter-成都.html">关浩德 Walter — 巡演成都站</a></div>
+                <div class="hero-meta">May 30, 2026 · 正火 6 号馆 · 流行爵士 / 律动</div>
+                <div class="hero-summary">一场轻松愉快的演出，律动改编是亮点，但关浩德在个人风格塑造和音乐深度的追求上还有很长的路要走。</div>
+                <a href="2026-05-30-关浩德-Walter-成都.html" class="hero-link">Read Review →</a>
+              </div>
+              <div class="score-wrap">                <div class="score-badge live">
+                  <div class="score-num">7.5</div>
+                  <div class="score-label">SCORE</div>
+                </div></div>
+            </div><div class="section-head" id="film">Film 电影<span class="count">2 reviews</span></div><div class="review-grid">            <article class="review-card">
+              <div class="card-tag film">Film</div>
+              <div class="card-title"><a href="2026-05-27-jaws.html">大白鲨 (Jaws)</a></div>
+              <div class="card-meta">May 27, 2026 · 史蒂文·斯皮尔伯格 (Steven Spielberg)</div>
+              <div class="card-summary">类型片鼻祖的含金量——用限制创造经典，50 年后依然是最好的鲨鱼电影，没有之一。</div>
+              <div class="card-bottom">
+                <a href="2026-05-27-jaws.html" class="card-read">Read →</a>
+                <div class="card-score film">9.5</div>
+              </div>
+            </article>            <article class="review-card">
+              <div class="card-tag film">Film</div>
+              <div class="card-title"><a href="2026-05-26-寂静的朋友.html">寂静的朋友 (Stiller Freund)</a></div>
+              <div class="card-meta">May 26, 2026</div>
+              <div class="card-summary">主旨有想法，但故事讲得不够好。安静是安静了，但不够利落。</div>
+              <div class="card-bottom">
+                <a href="2026-05-26-寂静的朋友.html" class="card-read">Read →</a>
+                
+              </div>
+            </article></div><div class="section-head" id="live">Live 现场<span class="count">1 review</span></div><div class="review-grid">            <article class="review-card">
+              <div class="card-tag live">Live</div>
+              <div class="card-title"><a href="2026-05-30-关浩德-Walter-成都.html">关浩德 Walter — 巡演成都站</a></div>
+              <div class="card-meta">May 30, 2026 · 关浩德 (Walter Kwan)</div>
+              <div class="card-summary">一场轻松愉快的演出，律动改编是亮点，但关浩德在个人风格塑造和音乐深度的追求上还有很长的路要走。</div>
+              <div class="card-bottom">
+                <a href="2026-05-30-关浩德-Walter-成都.html" class="card-read">Read →</a>
+                <div class="card-score live">7.5</div>
+              </div>
+            </article></div></div>
+    <footer>
+      <span>A personal archive of film and live music experiences.</span>
+    </footer>
+  </div>
+</body>
+</html>
